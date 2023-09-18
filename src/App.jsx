@@ -61,7 +61,11 @@ function App() {
     return extent;
   }
 
-  return <div className="container" ref={mapRef}></div>;
+  return (
+    <div className="container" ref={mapRef}>
+      <div className="bottombar"></div>
+    </div>
+  );
 }
 
 export default App;
