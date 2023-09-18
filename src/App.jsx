@@ -1,9 +1,10 @@
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Sketch from "@arcgis/core/widgets/Sketch";
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
+import Expand from "@arcgis/core/widgets/Expand";
 
 function App() {
   const mapRef = useRef();
@@ -12,6 +13,7 @@ function App() {
     basemap: "topo-vector",
     layers: [sketchLayer],
   });
+  const [selectExtent, setExtent] = useState();
 
   useEffect(() => {
     new MapView({
@@ -34,23 +36,21 @@ function App() {
       });
       view.ui.add(sketch, "top-right");
       sketchModel.on(["update", "undo", "redo"], onGraphicUpdate);
+
+      const expand = new Expand({
+        view: view,
+        content: document.getElementById("info"),
+        expanded: true,
+      });
+
+      view.ui.add(expand, "top-right");
     });
   }, []);
 
   function onGraphicUpdate(event) {
     // const graphic = event.graphics[0];
-
-    let layerExtent = calculateGraphicsLayerExtent(sketchLayer);
-    console.log("xmax: ", layerExtent.xmax);
-    console.log("ymax: ", layerExtent.ymax);
-    console.log("xmin: ", layerExtent.xmin);
-    console.log("ymin: ", layerExtent.ymin);
-  }
-
-  function calculateGraphicsLayerExtent(graphicsLayer) {
     let extent = null;
-
-    graphicsLayer.graphics.forEach((graphic) => {
+    sketchLayer.graphics.forEach((graphic) => {
       if (!extent) {
         extent = graphic.geometry.extent.clone();
       } else {
@@ -58,12 +58,47 @@ function App() {
       }
     });
 
-    return extent;
+    setExtent(extent);
   }
 
   return (
     <div className="container" ref={mapRef}>
-      <div className="bottombar"></div>
+      <div
+        id="info"
+        style={{
+          width: "20em",
+          height: "120px",
+          backgroundColor: "white",
+          padding: "1em",
+        }}
+      >
+        <ul style={{ listStyle: "none" }}>
+          <li>
+            <p>
+              <b>xmin: </b>
+              {selectExtent?.xmin}
+            </p>
+          </li>
+          <li>
+            <p>
+              <b>ymin: </b>
+              {selectExtent?.ymin}
+            </p>
+          </li>
+          <li>
+            <p>
+              <b>xmax: </b>
+              {selectExtent?.xmax}
+            </p>
+          </li>
+          <li>
+            <p>
+              <b>ymax: </b>
+              {selectExtent?.ymax}
+            </p>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

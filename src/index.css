@@ -83,7 +83,6 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
   vertical-align: baseline;
 }
 
@@ -92,12 +91,10 @@ video {
   height: 100vh;
 }
 
-.bottombar {
-  height: 6em;
-  width: 100%;
-  background-color: black;
-  opacity: 80%;
-  position: absolute;
-  left: 0;
-  bottom: 0;
+li:not(:first-of-type) {
+  margin-top: 0.5em;
+}
+
+li:not(:last-of-type) {
+  margin-bottom: 0.5em;
 }
