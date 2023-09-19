@@ -5,6 +5,7 @@ import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Sketch from "@arcgis/core/widgets/Sketch";
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 import Expand from "@arcgis/core/widgets/Expand";
+import * as webMercatorUtils from "@arcgis/core/geometry/support/webMercatorUtils.js";
 
 function App() {
   const mapRef = useRef();
@@ -51,14 +52,21 @@ function App() {
     // const graphic = event.graphics[0];
     let extent = null;
     sketchLayer.graphics.forEach((graphic) => {
+      let converts = webMercatorUtils.webMercatorToGeographic(graphic.geometry);
       if (!extent) {
-        extent = graphic.geometry.extent.clone();
+        extent = converts.extent.clone();
       } else {
-        extent = extent.union(graphic.geometry.extent);
+        extent = extent.union(converts.extent);
       }
+      // if (!extent) {
+      //   extent = graphic.geometry.extent.clone();
+      // } else {
+      //   extent = extent.union(graphic.geometry.extent);
+      // }
     });
 
     setExtent(extent);
+    return;
   }
 
   return (
