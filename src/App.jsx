@@ -9,12 +9,15 @@ import * as webMercatorUtils from "@arcgis/core/geometry/support/webMercatorUtil
 
 function App() {
   const mapRef = useRef();
+  const contentRef = useRef();
   const sketchLayer = new GraphicsLayer();
   const map = new Map({
     basemap: "topo-vector",
     layers: [sketchLayer],
   });
   const [selectExtent, setExtent] = useState();
+  const [paramBody, setParam] = useState();
+
   const datas = [
     {
       name: "HERE",
@@ -82,7 +85,7 @@ function App() {
 
         const expand = new Expand({
           view: view,
-          content: document.getElementById("info"),
+          content: contentRef.current,
           expanded: true,
         });
 
@@ -103,7 +106,12 @@ function App() {
       }
     });
 
-    setExtent(extent);
+    setExtent({
+      xmax: extent.xmax,
+      xmin: extent.xmin,
+      ymin: extent.ymin,
+      ymax: extent.ymax,
+    });
     return;
   }
 
@@ -112,18 +120,39 @@ function App() {
     const requestOption = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: "React POST" }),
+      body: JSON.stringify({
+        ...selectExtent,
+        ...paramBody,
+      }),
     };
+
     await fetch("http://localhost:5000/post", requestOption)
       .then((response) => response.json())
       .then((data) => console.log(data));
   }
+
+  function handleChange(e) {
+    const x = document.getElementById("selsource").value;
+
+    const reqs = {
+      tile_source: datas[x].servicelink,
+      name_file: datas[x].name,
+      zoom: datas[x].zoom,
+    };
+    setParam(reqs);
+  }
+
   return (
     <div className="w-full h-screen">
       <div className="w-full h-full" ref={mapRef}></div>
-      <div id="info" className="bg-white p-4 w-80">
+      <div className="bg-white p-4 w-80" ref={contentRef}>
         <form className="space-y-2" onSubmit={handleSubmit}>
-          <select name="source" id="selsource" className="w-full">
+          <select
+            name="source"
+            id="selsource"
+            className="w-full"
+            onChange={handleChange}
+          >
             <option value="0">-- Select Source --</option>
             {datas.map((data, index) => {
               return (
