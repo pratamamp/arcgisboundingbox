@@ -106,12 +106,7 @@ function App() {
       }
     });
 
-    setExtent({
-      lon_min: extent.ymin,
-      lon_max: extent.ymax,
-      lat_min: extent.xmin,
-      lat_max: extent.ymax,
-    });
+    setExtent(extent);
     return;
   }
 
@@ -166,25 +161,25 @@ function App() {
             <li>
               <p>
                 <b>xmin: </b>
-                {selectExtent?.lat_min}
+                {selectExtent?.xmin}
               </p>
             </li>
             <li>
               <p>
                 <b>ymin: </b>
-                {selectExtent?.lon_min}
+                {selectExtent?.ymin}
               </p>
             </li>
             <li>
               <p>
                 <b>xmax: </b>
-                {selectExtent?.lat_max}
+                {selectExtent?.xmax}
               </p>
             </li>
             <li>
               <p>
                 <b>ymax: </b>
-                {selectExtent?.lon_max}
+                {selectExtent?.ymax}
               </p>
             </li>
           </ul>
