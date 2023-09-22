@@ -6,13 +6,16 @@ import Sketch from "@arcgis/core/widgets/Sketch";
 import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 import Expand from "@arcgis/core/widgets/Expand";
 import * as webMercatorUtils from "@arcgis/core/geometry/support/webMercatorUtils.js";
+import esriConfig from "@arcgis/core/config";
 
 function App() {
   const mapRef = useRef();
   const contentRef = useRef();
   const sketchLayer = new GraphicsLayer();
+  esriConfig.apiKey =
+    "AAPK5859dc28695640648bc82f74cb132d702EyVpzDUpqd06R9DrQENmqJVfgxIpBXEcKQ-7KjfhcIS4Z4J7G7RU6NnbuyVcos-";
   const map = new Map({
-    basemap: "topo-vector",
+    basemap: "arcgis-imagery",
     layers: [sketchLayer],
   });
   const [selectExtent, setExtent] = useState();
@@ -64,8 +67,8 @@ function App() {
     if (mapRef.current) {
       new MapView({
         map,
-        center: [118.0148634, -2.548926],
-        zoom: 5,
+        center: [109.0148634, -6.548926],
+        zoom: 7,
         container: mapRef.current,
       }).when((view) => {
         const sketchModel = new SketchViewModel({
