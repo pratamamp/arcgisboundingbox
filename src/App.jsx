@@ -107,10 +107,10 @@ function App() {
     });
 
     setExtent({
-      xmax: extent.xmax,
-      xmin: extent.xmin,
-      ymin: extent.ymin,
-      ymax: extent.ymax,
+      lon_min: extent.ymin,
+      lon_max: extent.ymax,
+      lat_min: extent.xmin,
+      lat_max: extent.ymax,
     });
     return;
   }
