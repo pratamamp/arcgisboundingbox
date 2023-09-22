@@ -166,25 +166,25 @@ function App() {
             <li>
               <p>
                 <b>xmin: </b>
-                {selectExtent?.xmin}
+                {selectExtent?.lat_min}
               </p>
             </li>
             <li>
               <p>
                 <b>ymin: </b>
-                {selectExtent?.ymin}
+                {selectExtent?.lon_min}
               </p>
             </li>
             <li>
               <p>
                 <b>xmax: </b>
-                {selectExtent?.xmax}
+                {selectExtent?.lat_max}
               </p>
             </li>
             <li>
               <p>
                 <b>ymax: </b>
-                {selectExtent?.ymax}
+                {selectExtent?.lon_max}
               </p>
             </li>
           </ul>
