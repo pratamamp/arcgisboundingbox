@@ -127,10 +127,10 @@ function App() {
         ...paramBody,
       }),
     };
-    console.log(requestOption);
-    // await fetch("http://localhost:5000/post", requestOption)
-    //   .then((response) => response.json())
-    //   .then((data) => console.log(data));
+
+    await fetch("http://localhost:5000/post", requestOption)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   }
 
   function handleChange(e) {
