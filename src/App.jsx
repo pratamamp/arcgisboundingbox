@@ -106,12 +106,19 @@ function App() {
       }
     });
 
-    setExtent(extent);
+    setExtent({
+      xmin: extent.xmin,
+      ymin: extent.ymin,
+      xmax: extent.xmax,
+      ymax: extent.ymax,
+    });
     return;
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    console.log("extent", selectExtent);
     const requestOption = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -120,10 +127,10 @@ function App() {
         ...paramBody,
       }),
     };
-
-    await fetch("http://localhost:5000/post", requestOption)
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+    console.log(requestOption);
+    // await fetch("http://localhost:5000/post", requestOption)
+    //   .then((response) => response.json())
+    //   .then((data) => console.log(data));
   }
 
   function handleChange(e) {
