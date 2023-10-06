@@ -132,8 +132,8 @@ function App() {
     };
 
     await fetch("http://localhost:5000/post", requestOption)
-      .then((response) => alert(response.json()))
-      .then((data) => console.log(data));
+      .then((response) => response.json())
+      .then((data) => alert(data.link_data));
   }
 
   function handleChange(e) {
