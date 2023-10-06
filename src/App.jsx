@@ -132,7 +132,7 @@ function App() {
     };
 
     await fetch("http://localhost:5000/post", requestOption)
-      .then((response) => response.json())
+      .then((response) => alert(response.json()))
       .then((data) => console.log(data));
   }
 
@@ -144,6 +144,8 @@ function App() {
       name_file: datas[x].name,
       zoom: datas[x].zoom,
     };
+    console.log(reqs);
+
     setParam(reqs);
   }
 
@@ -161,7 +163,7 @@ function App() {
             <option value="0">-- Select Source --</option>
             {datas.map((data, index) => {
               return (
-                <option value={index + 1} key={index}>
+                <option value={index} key={index}>
                   {data.name}
                 </option>
               );
